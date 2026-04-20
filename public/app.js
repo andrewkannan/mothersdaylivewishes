@@ -136,14 +136,23 @@ function updatePhysics() {
         b.y += b.vy;
 
         // Apply drag (so they don't bounce too fast indefinitely)
-        // Maintain a minimum speed
         let speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
-        if (speed < 0.8) {
-            b.vx *= 1.05;
-            b.vy *= 1.05;
-        } else if (speed > 3) {
-            b.vx *= 0.99;
-            b.vy *= 0.99;
+        
+        if (isAdmin) {
+            // Apply heavy brakes in Admin Mode so they are easy to click
+            if (speed > 0.2) {
+                b.vx *= 0.85;
+                b.vy *= 0.85;
+            }
+        } else {
+            // Normal drifting speeds when not admin
+            if (speed < 0.8) {
+                b.vx *= 1.05;
+                b.vy *= 1.05;
+            } else if (speed > 3) {
+                b.vx *= 0.99;
+                b.vy *= 0.99;
+            }
         }
 
         // Bounce off walls
