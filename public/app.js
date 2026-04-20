@@ -104,9 +104,11 @@ function createBubble(wish) {
     // Drastically scale up radius for longer texts to guarantee safe area
     let targetR = Math.max(55 * viewportScale, calculatedR * viewportScale);
 
-    // Shrink all existing bubbles
+    // Shrink all existing wishes
     wishesArray.forEach(b => {
-        b.targetRadius = Math.max(35 * viewportScale, b.targetRadius * 0.95);
+        if (!b.isLogo) {
+            b.targetRadius = Math.max(35 * viewportScale, b.targetRadius * 0.95);
+        }
     });
 
     wishesArray.push({
@@ -208,5 +210,49 @@ function updatePhysics() {
     requestAnimationFrame(updatePhysics);
 }
 
-// Start visual loop
+// Initialize persistent floating logo
+function initLogo() {
+    const bubbleWrapper = document.createElement('div');
+    bubbleWrapper.classList.add('wish-bubble', 'logo-bubble');
+    
+    const img = document.createElement('img');
+    img.src = '/logo.png'; 
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'contain';
+    img.style.zIndex = '10';
+    img.style.pointerEvents = 'none'; // so you can't accidentally click it out of frustration
+    
+    // Fallback if logo.png doesn't exist yet
+    img.onerror = () => {
+        bubbleWrapper.innerHTML = `
+            <div style="background: rgba(255,255,255,0.9); border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #ff9a9e; font-size: 14px; text-align: center; padding: 10px;">
+                Your Logo<br/>(logo.png)
+            </div>`;
+    };
+    
+    bubbleWrapper.appendChild(img);
+    container.appendChild(bubbleWrapper);
+
+    let viewportScale = Math.max(0.7, Math.min(1, window.innerWidth / 800));
+    let targetR = 65 * viewportScale; // Size of the logo
+
+    const x = targetR + Math.random() * (window.innerWidth - targetR * 2);
+    const y = targetR + Math.random() * (window.innerHeight - targetR * 2);
+    
+    const vx = (Math.random() - 0.5) * 4;
+    const vy = (Math.random() - 0.5) * 4;
+
+    wishesArray.push({
+        id: 'persistent_logo',
+        el: bubbleWrapper,
+        x, y, vx, vy,
+        radius: targetR,
+        targetRadius: targetR,
+        isLogo: true
+    });
+}
+
+// Start visualizations
+initLogo();
 requestAnimationFrame(updatePhysics);
