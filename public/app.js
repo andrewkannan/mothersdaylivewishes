@@ -132,10 +132,9 @@ function updatePhysics() {
         b.el.style.width = `${b.radius * 2}px`;
         b.el.style.height = `${b.radius * 2}px`;
         
-        // Font size relative to radius: smaller multiplier so text wraps neatly within tight bounds
+        // Font size relative to radius: strictly proportional mathematical scaling so text never spills outside the SVG borders
         if (b.textSpan) {
-            // Restore lower limit of 10px to accommodate smaller bubbles gracefully
-            b.textSpan.style.fontSize = `${Math.max(10, b.radius * 0.16)}px`;
+            b.textSpan.style.fontSize = `${b.radius * 0.16}px`;
         }
 
         // Update position
