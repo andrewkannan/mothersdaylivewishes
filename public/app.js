@@ -95,9 +95,9 @@ function createBubble(wish) {
     const x = radius + Math.random() * (window.innerWidth - radius * 2);
     const y = radius + Math.random() * (window.innerHeight - radius * 2);
     
-    // Faster initial random velocity to spread them
-    const vx = (Math.random() - 0.5) * 5;
-    const vy = (Math.random() - 0.5) * 5;
+    // Faster initial random velocity to spread them gently
+    const vx = (Math.random() - 0.5) * 3;
+    const vy = (Math.random() - 0.5) * 3;
 
     // Calculate initial target radius dynamically based on text length
     // We apply a gentle scale-down for mobile devices to prevent completely dominating the screen
@@ -151,13 +151,13 @@ function updatePhysics() {
                 b.vy *= 0.85;
             }
         } else {
-            // Normal drifting speeds when not admin
-            if (speed < 0.8) {
+            // Normal drifting speeds when not admin (Slowed down significantly to be smooth and readable)
+            if (speed < 0.4) {
                 b.vx *= 1.05;
                 b.vy *= 1.05;
-            } else if (speed > 3) {
-                b.vx *= 0.99;
-                b.vy *= 0.99;
+            } else if (speed > 1.5) {
+                b.vx *= 0.95;
+                b.vy *= 0.95;
             }
         }
 
@@ -246,8 +246,8 @@ function initLogo() {
     const x = targetR + Math.random() * (window.innerWidth - targetR * 2);
     const y = targetR + Math.random() * (window.innerHeight - targetR * 2);
     
-    const vx = (Math.random() - 0.5) * 4;
-    const vy = (Math.random() - 0.5) * 4;
+    const vx = (Math.random() - 0.5) * 2;
+    const vy = (Math.random() - 0.5) * 2;
 
     wishesArray.push({
         id: 'persistent_logo',
