@@ -131,7 +131,9 @@ function updatePhysics() {
         b.el.style.height = `${b.radius * 2}px`;
         
         // Font size relative to radius: smaller multiplier so text wraps neatly within tight bounds
-        b.textSpan.style.fontSize = `${Math.max(10, b.radius * 0.16)}px`;
+        if (b.textSpan) {
+            b.textSpan.style.fontSize = `${Math.max(10, b.radius * 0.16)}px`;
+        }
 
         // Update position
         b.x += b.vx;
