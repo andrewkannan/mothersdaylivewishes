@@ -241,24 +241,26 @@ button:active {
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
     .center-content {
-        width: 95%; /* Hug edges closely to conserve mobile estate */
-        padding: 10px;
+        width: 88%; /* Slightly smaller container widths */
+        padding: 5px;
     }
     .glass-panel {
-        padding: 25px 15px;
+        padding: 20px 15px; /* Tighter padding */
     }
     .glass-panel h1 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
+        margin-bottom: 5px;
     }
     .glass-panel p {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
     }
     #wish-input {
-        padding: 14px 15px;
-        font-size: 1rem;
+        padding: 12px 15px;
+        font-size: 0.95rem;
     }
     button {
-        padding: 14px 20px;
-        font-size: 1rem;
+        padding: 12px 20px;
+        font-size: 0.95rem;
     }
 }
