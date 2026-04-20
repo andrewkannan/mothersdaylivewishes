@@ -8,10 +8,26 @@ const container = document.getElementById('wishes-container');
 const wishesArray = [];
 let baseRadius = 80;
 
+let isAdmin = false;
+
 // Listen for submission
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const wishText = input.value.trim();
+    
+    // Check for admin super secret code
+    if (wishText.toLowerCase() === 'admin123') {
+        isAdmin = !isAdmin;
+        input.value = '';
+        if (isAdmin) {
+            container.classList.add('admin-mode');
+            alert('Admin mode unlocked: You can now delete wishes by clicking their X button.');
+        } else {
+            container.classList.remove('admin-mode');
+            alert('Admin mode disabled.');
+        }
+        return;
+    }
     
     if (wishText) {
         socket.emit('new_wish', wishText);
@@ -34,6 +50,16 @@ socket.on('receive_wish', (wish) => {
     createBubble(wish);
 });
 
+// Listen for deleted wishes
+socket.on('wish_deleted', (wishId) => {
+    const index = wishesArray.findIndex(b => b.id === wishId);
+    if (index !== -1) {
+        const b = wishesArray[index];
+        if (b.el.parentNode) b.el.parentNode.removeChild(b.el);
+        wishesArray.splice(index, 1);
+    }
+});
+
 function createBubble(wish) {
     const bubbleWrapper = document.createElement('div');
     bubbleWrapper.classList.add('wish-bubble');
@@ -49,6 +75,15 @@ function createBubble(wish) {
     const textSpan = document.createElement('span');
     textSpan.innerText = wish.text;
     bubbleWrapper.appendChild(textSpan);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.innerText = 'X';
+    deleteBtn.onclick = (e) => {
+        e.stopPropagation(); // Avoid triggering parents
+        socket.emit('delete_wish', wish.id);
+    };
+    bubbleWrapper.appendChild(deleteBtn);
 
     container.appendChild(bubbleWrapper);
 
@@ -75,6 +110,7 @@ function createBubble(wish) {
     });
 
     wishesArray.push({
+        id: wish.id,
         el: bubbleWrapper,
         x, y, vx, vy,
         radius: 0, // Starts at 0, grows to targetRadius

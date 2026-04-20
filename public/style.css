@@ -201,6 +201,43 @@ button:active {
     line-height: 1.25;
 }
 
+/* Admin Delete Button */
+.delete-btn {
+    display: none;
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 100;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.delete-btn:hover {
+    background: #ff1a1a;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+#wishes-container.admin-mode .delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wishes-container.admin-mode .wish-bubble {
+    pointer-events: auto; /* Enable clicking the delete button in admin mode */
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
     .glass-panel {

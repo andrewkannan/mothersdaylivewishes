@@ -34,6 +34,12 @@ io.on('connection', (socket) => {
         io.emit('receive_wish', wish);
     });
 
+    // Handle wish deletion (Admin capability)
+    socket.on('delete_wish', (wishId) => {
+        wishes = wishes.filter(w => w.id !== wishId);
+        io.emit('wish_deleted', wishId);
+    });
+
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
     });
