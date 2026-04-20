@@ -100,16 +100,16 @@ function createBubble(wish) {
     const vy = (Math.random() - 0.5) * 5;
 
     // Calculate initial target radius dynamically based on text length
-    // We do NOT use viewportScale here because mobile devices require physical pixels to remain readable.
+    // We apply a gentle scale-down for mobile devices to prevent completely dominating the screen
+    let viewportScale = window.innerWidth < 600 ? 0.75 : 1;
     let calculatedR = 45 + (wish.text.length * 1.2);
     
-    // Drastically scale up radius for longer texts to guarantee safe area
-    let targetR = Math.max(60, calculatedR);
+    let targetR = Math.max(60 * viewportScale, calculatedR * viewportScale);
 
     // Shrink all existing wishes so the screen doesn't fill up permanently
     wishesArray.forEach(b => {
         if (!b.isLogo) {
-            b.targetRadius = Math.max(45, b.targetRadius * 0.95);
+            b.targetRadius = Math.max(40 * viewportScale, b.targetRadius * 0.95);
         }
     });
 
@@ -134,8 +134,8 @@ function updatePhysics() {
         
         // Font size relative to radius: smaller multiplier so text wraps neatly within tight bounds
         if (b.textSpan) {
-            // Guarantee a minimum font size of 11px so mobile devices can physically render the letters clearly
-            b.textSpan.style.fontSize = `${Math.max(11, b.radius * 0.16)}px`;
+            // Restore lower limit of 10px to accommodate smaller bubbles gracefully
+            b.textSpan.style.fontSize = `${Math.max(10, b.radius * 0.16)}px`;
         }
 
         // Update position
@@ -240,7 +240,8 @@ function initLogo() {
     container.appendChild(bubbleWrapper);
 
     // Size of the logo
-    let targetR = 70; 
+    let viewportScale = window.innerWidth < 600 ? 0.75 : 1;
+    let targetR = 70 * viewportScale; 
 
     // Random initial placement
     const x = targetR + Math.random() * (window.innerWidth - targetR * 2);
