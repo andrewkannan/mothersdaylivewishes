@@ -40,6 +40,9 @@ socket.on('load_wishes', (wishes) => {
     container.innerHTML = '';
     wishesArray.length = 0; // Reset
     
+    // Always persist the logo whenever we refresh the screen from database state
+    initLogo();
+    
     wishes.forEach(wish => {
         createBubble(wish);
     });
@@ -256,5 +259,4 @@ function initLogo() {
 }
 
 // Start visualizations
-initLogo();
 requestAnimationFrame(updatePhysics);
