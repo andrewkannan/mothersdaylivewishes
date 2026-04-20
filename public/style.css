@@ -240,21 +240,25 @@ button:active {
 
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
+    .center-content {
+        width: 95%; /* Hug edges closely to conserve mobile estate */
+        padding: 10px;
+    }
     .glass-panel {
-        padding: 25px 20px;
+        padding: 25px 15px;
     }
     .glass-panel h1 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
     }
     .glass-panel p {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     #wish-input {
-        padding: 12px 15px;
-        font-size: 0.9rem;
+        padding: 14px 15px;
+        font-size: 1rem;
     }
     button {
-        padding: 12px 20px;
-        font-size: 0.9rem;
+        padding: 14px 20px;
+        font-size: 1rem;
     }
 }
