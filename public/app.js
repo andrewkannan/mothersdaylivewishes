@@ -15,6 +15,12 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const wishText = input.value.trim();
     
+    // Presentation Mode (Hide UI entirely)
+    if (wishText.toLowerCase() === 'opensesame') {
+        document.querySelector('.center-content').style.display = 'none';
+        return;
+    }
+
     // Check for admin super secret code
     if (wishText.toLowerCase() === 'admin123') {
         isAdmin = !isAdmin;
