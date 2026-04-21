@@ -46,8 +46,9 @@ socket.on('load_wishes', (wishes) => {
     container.innerHTML = '';
     wishesArray.length = 0; // Reset
     
-    // Always persist the logo whenever we refresh the screen from database state
+    // Always persist the logo and decorative hearts whenever we refresh the screen from database state
     initLogo();
+    spawnDecorativeHearts(12); // Spawn 12 background mini-hearts
     
     wishes.forEach(wish => {
         createBubble(wish);
@@ -114,7 +115,7 @@ function createBubble(wish) {
 
     // Shrink all existing wishes so the screen doesn't fill up permanently
     wishesArray.forEach(b => {
-        if (!b.isLogo) {
+        if (!b.isLogo && !b.isDecorative) {
             b.targetRadius = Math.max(40 * viewportScale, b.targetRadius * 0.95);
         }
     });
@@ -263,6 +264,39 @@ function initLogo() {
         targetRadius: targetR,
         isLogo: true
     });
+}
+
+// Spawns permanent, small dark-red decorative hearts
+function spawnDecorativeHearts(count) {
+    for (let i = 0; i < count; i++) {
+        const bubbleWrapper = document.createElement('div');
+        bubbleWrapper.classList.add('wish-bubble', 'decorative');
+        
+        // Blank SVG Heart with dark red fill (#8b0000)
+        bubbleWrapper.innerHTML = `
+            <svg class="heart-svg" viewBox="0 0 24 24" preserveAspectRatio="none">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                      fill="#8b0000" />
+            </svg>
+        `;
+        
+        container.appendChild(bubbleWrapper);
+        
+        let targetR = 12 + Math.random() * 15; // Small size between 12 and 27
+        const x = targetR + Math.random() * (window.innerWidth - targetR * 2);
+        const y = targetR + Math.random() * (window.innerHeight - targetR * 2);
+        const vx = (Math.random() - 0.5) * 4;
+        const vy = (Math.random() - 0.5) * 4;
+        
+        wishesArray.push({
+            id: 'decorative_' + i,
+            el: bubbleWrapper,
+            x, y, vx, vy,
+            radius: targetR,
+            targetRadius: targetR,
+            isDecorative: true
+        });
+    }
 }
 
 // Start visualizations
