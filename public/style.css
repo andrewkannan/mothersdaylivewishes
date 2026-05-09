@@ -238,8 +238,47 @@ button:active {
     pointer-events: auto; /* Enable clicking the delete button in admin mode */
 }
 
+/* QR Container */
+.qr-container {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--glass-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.qr-container p {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    margin: 0;
+    line-height: 1.2;
+}
+
+#qrcode {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
+    .qr-container {
+        display: none;
+    }
     .center-content {
         width: 80%; /* Even smaller container widths */
         max-width: 320px; /* Constrain perfectly */

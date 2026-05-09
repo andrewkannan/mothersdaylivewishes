@@ -19,6 +19,12 @@
     <!-- Container for dynamic floating wishes -->
     <div id="wishes-container"></div>
 
+    <!-- QR Code Container (Left Side) -->
+    <div class="qr-container">
+        <div id="qrcode"></div>
+        <p>Scan to send<br>a wish!</p>
+    </div>
+
     <!-- Central Input Form (Glassmorphism) -->
     <div class="center-content">
         <div class="glass-panel">
@@ -33,6 +39,8 @@
 
     <!-- Socket.io client library -->
     <script src="/socket.io/socket.io.js"></script>
+    <!-- QRCode library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="/app.js"></script>
 </body>
 </html>

@@ -4,6 +4,28 @@ const form = document.getElementById('wish-form');
 const input = document.getElementById('wish-input');
 const container = document.getElementById('wishes-container');
 
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('focus') === '1') {
+        if (input) {
+            input.focus();
+        }
+    }
+    
+    // Generate QR code
+    if (typeof QRCode !== 'undefined') {
+        const currentUrl = window.location.origin + window.location.pathname + '?focus=1';
+        new QRCode(document.getElementById("qrcode"), {
+            text: currentUrl,
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    }
+});
+
 // Physics state
 const wishesArray = [];
 let baseRadius = 80;
